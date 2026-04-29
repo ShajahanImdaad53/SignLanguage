@@ -128,7 +128,7 @@ class SLTModel(nn.Module):
         self.fusion = FusionLayer(
             visual_dim=visual_dim,
             hidden_dim=m.hidden_dim,
-            fusion=m.get("fusion", "concat"),
+            fusion=getattr(m, "fusion", "concat"),
         )
 
         # 4. Temporal transformer

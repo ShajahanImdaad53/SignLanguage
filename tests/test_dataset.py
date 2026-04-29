@@ -39,6 +39,7 @@ def test_dataset_loading(dummy_dataset, tmp_path):
     csv_path, frames_dir = dummy_dataset
 
     # Create minimal config
+    frames_dir_str = str(frames_dir)  # Capture in outer scope
     class DummyCfg:
         class Video:
             frame_size = [224, 224]
@@ -50,7 +51,7 @@ def test_dataset_loading(dummy_dataset, tmp_path):
             keypoint_dim = 258
 
         class Data:
-            frames_dir = str(frames_dir)
+            frames_dir = frames_dir_str
 
         video = Video()
         model = Model()
