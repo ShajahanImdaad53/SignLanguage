@@ -1,0 +1,16 @@
+# configs/model_config.yaml
+
+model:
+  name: "hybrid_ssl_transformer"
+  backbone: "resnet50"          # resnet50 | resnet18 | efficientnet_b0
+  pretrained: true
+  hidden_dim: 256
+  num_heads: 8
+  num_layers: 4
+  dropout: 0.1
+  vocab_size: 500
+  max_seq_len: 64
+  feature_dim: 2048
+  use_keypoints: true
+  keypoint_dim: 258             # (21+21+33) landmarks x 3 coords = 225, padded to 258
+  fusion: "concat"              # concat | attention | gated

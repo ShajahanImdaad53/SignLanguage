@@ -1,0 +1,65 @@
+# Data
+data/raw_videos/
+data/interim/
+data/splits/
+*.mp4
+*.mov
+*.avi
+
+# Models & checkpoints
+models/*.pt
+models/*.pth
+*.pth
+*.pt
+
+# Logs
+logs/
+runs/
+wandb/
+*.log
+tensorboard/
+
+# Virtual environment
+.venv/
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Experiments
+experiments/*/
+!experiments/.gitkeep
+
+# Cache
+.cache/
+*.cache

@@ -1,0 +1,44 @@
+# configs/data_config.yaml
+# Inherits base, overrides data-specific settings
+
+data:
+  raw_videos_dir: "data/raw_videos/"
+  interim_dir: "data/interim/"
+  frames_dir: "data/interim/frames/"
+  keypoints_dir: "data/interim/keypoints/"
+  features_dir: "data/interim/features/"
+  splits_dir: "data/splits/"
+  train_csv: "data/splits/train.csv"
+  val_csv: "data/splits/val.csv"
+  test_csv: "data/splits/test.csv"
+  label_map: "data/splits/label_map.json"
+  train_ratio: 0.75
+  val_ratio: 0.125
+  test_ratio: 0.125
+
+video:
+  fps: 25
+  frame_size: [224, 224]
+  max_frames: 64
+  channels: 3
+  normalize_mean: [0.485, 0.456, 0.406]
+  normalize_std: [0.229, 0.224, 0.225]
+
+keypoints:
+  extractor: "mediapipe"
+  hands: true
+  pose: true
+  face: false
+  confidence_threshold: 0.5
+
+augmentation:
+  enabled: true
+  random_crop: true
+  horizontal_flip: true
+  color_jitter:
+    brightness: 0.2
+    contrast: 0.2
+    saturation: 0.1
+  temporal_shuffle: false
+  time_mask: true
+  time_mask_ratio: 0.1

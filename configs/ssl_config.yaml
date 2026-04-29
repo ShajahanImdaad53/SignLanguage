@@ -1,0 +1,32 @@
+# configs/ssl_config.yaml
+
+ssl:
+  method: "masked_autoencoder"   # masked_autoencoder | simclr | moco | byol
+  masking_ratio: 0.75
+  mask_strategy: "random"        # random | block | tube
+
+  masked_autoencoder:
+    decoder_hidden_dim: 128
+    decoder_num_layers: 2
+    reconstruction_loss: "mse"
+
+  contrastive:
+    temperature: 0.07
+    negative_samples: 128
+    projection_dim: 128
+    augmentations:
+      - "random_crop"
+      - "horizontal_flip"
+      - "color_jitter"
+      - "temporal_shuffle"
+      - "gaussian_noise"
+
+  pretraining:
+    epochs: 30
+    lr: 0.0001
+    batch_size: 32
+    weight_decay: 0.01
+    warmup_epochs: 3
+    scheduler: "cosine"
+    save_path: "models/ssl_pretrained.pt"
+    num_workers: 4

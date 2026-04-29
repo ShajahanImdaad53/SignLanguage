@@ -1,0 +1,6 @@
+video_id,video_path,label,gloss
+video_001,data/raw_videos/sample_001.mp4,0,hello
+video_002,data/raw_videos/sample_002.mp4,1,thank_you
+video_003,data/raw_videos/sample_003.mp4,2,goodbye
+video_004,data/raw_videos/sample_004.mp4,0,hello
+video_005,data/raw_videos/sample_005.mp4,1,thank_you

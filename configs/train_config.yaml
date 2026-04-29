@@ -1,0 +1,27 @@
+# configs/train_config.yaml
+
+training:
+  epochs: 50
+  batch_size: 16
+  learning_rate: 0.0003
+  weight_decay: 0.01
+  optimizer: "adamw"            # adamw | adam | sgd
+  scheduler: "cosine"           # cosine | step | plateau
+  warmup_epochs: 5
+  gradient_clip: 1.0
+  early_stopping_patience: 10
+  num_workers: 4
+  pin_memory: true
+  mixed_precision: true         # fp16 training
+
+loss:
+  type: "cross_entropy"
+  label_smoothing: 0.1
+
+logging:
+  log_dir: "logs/"
+  save_dir: "models/"
+  checkpoint_every: 5
+  wandb: false
+  tensorboard: true
+  experiment_name: "baseline_run"

@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  slt:
+    build: .
+    image: slt-hybrid-ssl:latest
+    container_name: slt_app
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - CUDA_VISIBLE_DEVICES=0
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./logs:/app/logs
+    ports:
+      - "6006:6006"
+      - "8888:8888"
+    command: bash
+    stdin_open: true
+    tty: true

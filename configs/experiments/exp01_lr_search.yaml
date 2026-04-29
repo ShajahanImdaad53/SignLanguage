@@ -1,0 +1,7 @@
+# configs/experiments/exp01_lr_search.yaml
+training:
+  learning_rate: 0.0001
+  epochs: 30
+  batch_size: 16
+logging:
+  experiment_name: "exp01_lr0001"
