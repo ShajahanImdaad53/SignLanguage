@@ -45,6 +45,7 @@ model:
   vocab_size: 500
   max_seq_len: 64
   feature_dim: 2048
+  keypoint_dim: 258  # (21+21+33) landmarks x 3 coords = 225, padded to 258
 
 training:
   epochs: 50

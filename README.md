@@ -37,23 +37,98 @@ cd slt-hybrid-ssl
 pip install -r requirements.txt
 ```
 
-### 2. Prepare Data
+### 2. Run Data Pipeline
 
-Create `data/manifest.csv`:
+Generate synthetic dataset & create train/val/test splits:
+
+```bash
+python run_data_pipeline.py
+```
+
+**Expected Output:**
+```
+────────────────────────────────────────────────────────────
+  SLT Data Pipeline — Starting
+────────────────────────────────────────────────────────────
+[10:29:33] INFO     pipeline — [Pipeline] No videos found. Generating dummy data for testing.
+[10:29:36] INFO     create_test_data — [CreateData] Generating 200 dummy samples...
+[10:29:40] INFO     create_test_data — [DummyData] Generated 50/200 samples
+[10:29:44] INFO     create_test_data — [DummyData] Generated 100/200 samples
+[10:29:50] INFO     create_test_data — [DummyData] Generated 150/200 samples
+[10:29:56] INFO     create_test_data — [DummyData] Generated 200/200 samples
+[10:29:56] INFO     create_test_data — [DummyData] Done — 200 samples, 40 classes
+[10:29:56] INFO     create_test_data — [CreateData] Saved dummy metadata → data\interim\processed_videos.csv
+[10:29:56] INFO     create_test_data — [LabelMap] 40 classes → data/splits/label_map.json
+[10:29:56] WARNING  create_test_data — [Splits] Not enough samples for stratified split. Using random split.
+[10:29:56] INFO     create_test_data — [Splits] train=150, val=25, test=25
+[10:29:56] INFO     create_test_data — [Splits] Saved to data/splits/
+
+==================================================
+  Dataset ready!
+  Total samples : 200
+  Classes       : 40
+  Splits dir    : data/splits/
+==================================================
+
+────────────────────────────────────────────────────────────
+  Step 3: Verifying dataset integrity
+────────────────────────────────────────────────────────────
+[10:29:57] INFO     pipeline — [Verify] train: 150 samples ✓
+[10:29:57] INFO     pipeline — [Verify] val: 25 samples ✓
+[10:29:57] INFO     pipeline — [Verify] test: 25 samples ✓
+[10:29:57] INFO     pipeline — [Verify] label_map: 40 classes ✓
+
+────────────────────────────────────────────────────────────
+  Dataset Summary
+────────────────────────────────────────────────────────────
+  train :   150 samples
+  val   :    25 samples
+  test  :    25 samples
+  classes: 40
+  labels : afternoon, bad, eight, evening, family, five, food, four, friday, friend...
+
+  frames dir    : data/interim/frames/
+  keypoints dir : data/interim/keypoints/
+  splits dir    : data/splits/
+
+────────────────────────────────────────────────────────────
+  Pipeline complete in 23.8s ✓
+────────────────────────────────────────────────────────────
+```
+
+**What's Created:**
+- `data/splits/train.csv` — 150 training samples
+- `data/splits/val.csv` — 25 validation samples  
+- `data/splits/test.csv` — 25 test samples
+- `data/splits/label_map.json` — 40 sign language classes (glosses)
+- `data/interim/processed_videos.csv` — metadata for all videos
+
+**Custom Data (Real Videos):**
+```bash
+# Process videos from a directory
+python run_data_pipeline.py --video_dir path/to/videos/
+
+# Generate more dummy samples
+python run_data_pipeline.py --dummy --num_samples 500
+```
+
+### 3. Prepare Data
+
+Create `data/manifest.csv` with your videos:
 ```csv
 video_id,video_path,label,gloss
 video_001,path/to/video.mp4,0,hello
 video_002,path/to/video.mp4,1,thank_you
 ```
 
-Run the full data pipeline:
+Run the full pipeline:
 ```bash
 make data
-# or manually:
+# or:
 python pipelines/run_data_pipeline.py --manifest data/manifest.csv
 ```
 
-### 3. Pretrain with SSL
+### 4. Pretrain with SSL
 
 ```bash
 make ssl
@@ -61,7 +136,7 @@ make ssl
 python src/ssl_pretrain.py --config configs/ssl_config.yaml
 ```
 
-### 4. Fine-tune on Labelled Data
+### 5. Fine-tune on Labelled Data
 
 ```bash
 make train
@@ -69,7 +144,7 @@ make train
 python src/trainer.py --config configs/train_config.yaml
 ```
 
-### 5. Evaluate
+### 6. Evaluate
 
 ```bash
 python src/evaluate_test.py --checkpoint models/best_model.pt
