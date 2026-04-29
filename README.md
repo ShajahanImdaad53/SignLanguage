@@ -445,6 +445,84 @@ pytest tests/
 pytest tests/ --cov=src/  # with coverage
 ```
 
+### Test Results
+
+```
+============================= test session starts =============================
+platform win32 -- Python 3.12.1, pytest-9.0.3, pluggy-1.6.0
+collected 7 items
+
+tests/test_dataset.py::test_dataset_loading PASSED                       [ 14%]
+tests/test_dataset.py::test_transforms PASSED                            [ 28%]
+tests/test_model.py::test_model_creation PASSED                          [ 42%]
+tests/test_model.py::test_forward_finetune PASSED                        [ 57%]
+tests/test_model.py::test_forward_pretrain PASSED                        [ 71%]
+tests/test_model.py::test_backbone_freeze_unfreeze PASSED                [ 85%]
+tests/test_model.py::test_build_model PASSED                             [100%]
+
+============================== 7 passed in 9.62s ===============================
+```
+
+**Coverage Report:**
+```bash
+pytest tests/ --cov=src/ --cov-report=html
+# View in browser: htmlcov/index.html
+```
+
+## 🐛 Debugging Guide
+
+### Verify Python Files Syntax
+```bash
+# Check all Python files compile
+Get-ChildItem -Path . -Recurse -Filter "*.py" | ForEach-Object { python -m py_compile $_.FullName 2>&1 }
+```
+
+### Check for Import Errors
+```bash
+python -c "import src; import tests; print('✓ All imports OK')"
+```
+
+### Run Specific Test
+```bash
+pytest tests/test_model.py::test_model_creation -v
+```
+
+### Debug with Print Statements
+```bash
+# Add logging to see execution flow
+PYTHONPATH=. python -c "from src.dataset import SLTDataset; print('Dataset module loaded')"
+```
+
+### Common Issues & Fixes
+
+**Issue 1: `ModuleNotFoundError: No module named 'mediapipe'`**
+```bash
+pip install mediapipe
+```
+
+**Issue 2: `AttributeError: Config has no key`**
+- Check that `keypoint_dim` is in `configs/base_config.yaml`
+- Verify config files are in `configs/` directory
+
+**Issue 3: CUDA/GPU Issues**
+```bash
+python -c "import torch; print(torch.cuda.is_available())"
+# If False, CPU mode will be used automatically
+```
+
+**Issue 4: Dataset Loading Error**
+```bash
+# Verify data structure
+python -c "
+from pathlib import Path
+import pandas as pd
+splits_dir = Path('data/splits')
+for f in splits_dir.glob('*.csv'):
+    df = pd.read_csv(f)
+    print(f'{f.name}: {len(df)} samples')
+"
+```
+
 ## 🎓 What You'll Learn
 
 This codebase teaches:
